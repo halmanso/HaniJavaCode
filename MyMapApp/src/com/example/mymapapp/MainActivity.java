@@ -8,6 +8,7 @@ import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.LocationSource.OnLocationChangedListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -26,11 +27,12 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
 import android.widget.TextView;
 
 
 public class MainActivity extends FragmentActivity
-implements OnMarkerDragListener, OnMapClickListener, OnMapLongClickListener, OnCameraChangeListener {
+implements OnMarkerDragListener,OnMarkerClickListener, OnMapClickListener, OnMapLongClickListener, OnCameraChangeListener {
 
 	private GoogleMap mMap;
 	private TextView mTapTextView;
@@ -43,6 +45,7 @@ implements OnMarkerDragListener, OnMapClickListener, OnMapLongClickListener, OnC
 	private Marker[] mkr= new Marker[20];
 	private Polygon poly;
 	private int inc = 0;
+	private int selmkr;
 	
 	
 	
@@ -90,6 +93,7 @@ implements OnMarkerDragListener, OnMapClickListener, OnMapLongClickListener, OnC
 		mMap.setOnMapLongClickListener(this);
 		mMap.setOnCameraChangeListener(this);
 		mMap.setOnMarkerDragListener(this);
+		mMap.setOnMarkerClickListener(this);
 		//mMap.setLocationSource(mLocationSource);
         //mMap.setOnMapLongClickListener(mLocationSource);        
 		mMap.setMyLocationEnabled(true); //shows the location button and enables it
@@ -107,7 +111,7 @@ implements OnMarkerDragListener, OnMapClickListener, OnMapLongClickListener, OnC
 	public void onMapClick(LatLng point) {
 		mMap.clear();
 		inc++;
-		mTapTextView.setText("tapped, point=" + point);
+		//mTapTextView.setText("tapped, point=" + point);
 		mkr[inc-1] = mMap.addMarker(new MarkerOptions()
 		.position(point)
 		.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
@@ -120,14 +124,14 @@ implements OnMarkerDragListener, OnMapClickListener, OnMapLongClickListener, OnC
 	@Override
 	public void onMapLongClick(LatLng point) {
 		//mTapTextView.setText("long pressed, point=" + point);
-		mTapTextView.setText("long pressed, point=" + inc);
+		//mTapTextView.setText("long pressed, point=" + inc);
 		mMap.clear();
 		inc = 0;
 	}
 	
 	@Override
 	public void onCameraChange(final CameraPosition position) {
-		mCameraTextView.setText(position.toString());
+		//mCameraTextView.setText(position.toString());
 	}
 	
 	
@@ -164,5 +168,50 @@ implements OnMarkerDragListener, OnMapClickListener, OnMapLongClickListener, OnC
 	public void onMarkerDragStart(Marker arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+	public void moveUp(View view) {
+		double lat,lon;
+		lat = mkr[selmkr].getPosition().latitude;
+		lon = mkr[selmkr].getPosition().longitude;
+        mkr[selmkr].setPosition(new LatLng(lat+0.001,lon));
+        mMap.clear();
+		doPolygon();
+    }
+	public void moveDn(View view) {
+		double lat,lon;
+		lat = mkr[selmkr].getPosition().latitude;
+		lon = mkr[selmkr].getPosition().longitude;
+        mkr[selmkr].setPosition(new LatLng(lat-0.001,lon));
+        mMap.clear();
+		doPolygon();
+    }
+	public void moveRt(View view) {
+		double lat,lon;
+		lat = mkr[selmkr].getPosition().latitude;
+		lon = mkr[selmkr].getPosition().longitude;
+        mkr[selmkr].setPosition(new LatLng(lat,lon+0.001));
+        mMap.clear();
+		doPolygon();
+	    
+	}
+	public void moveLt(View view) {
+		double lat,lon;
+		lat = mkr[selmkr].getPosition().latitude;
+		lon = mkr[selmkr].getPosition().longitude;
+        mkr[selmkr].setPosition(new LatLng(lat,lon-0.001));
+        mMap.clear();
+		doPolygon();
+	    
+	}
+
+	@Override
+	public boolean onMarkerClick(Marker arg0) {
+		// TODO Auto-generated method stub
+		for (int i = 0;i<inc;i++){
+			if(arg0.equals(mkr[i])){
+				selmkr = i;
+			}
+		}
+		return false;
 	}
 }

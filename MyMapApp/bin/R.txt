@@ -53,6 +53,10 @@ int drawable common_signin_btn_text_pressed_light 0x7f020017
 int drawable ic_launcher 0x7f020018
 int id camera_text 0x7f050006
 int id hybrid 0x7f050004
+int id mDn 0x7f050009
+int id mLt 0x7f05000b
+int id mRt 0x7f05000a
+int id mUp 0x7f050008
 int id map 0x7f050007
 int id none 0x7f050000
 int id normal 0x7f050001

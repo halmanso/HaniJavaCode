@@ -3636,3 +3636,12 @@ Binding(CTRL+SHIFT+\,
 		,,true),null),
 	org.eclipse.ui.defaultAcceleratorConfiguration,
 	org.eclipse.wst.sse.ui.structuredTextEditorScope,,,system)
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2013-09-14 21:09:37.154
+!MESSAGE activity_main.xml: Couldn't resolve resource @string/stop_animation
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2013-09-14 21:09:42.590
+!MESSAGE activity_main.xml: Couldn't resolve resource @string/stop_animation
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2013-09-14 21:10:17.121
+!MESSAGE activity_main.xml: Couldn't resolve resource @string/stop_animation
