@@ -4,20 +4,10 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:orientation="vertical">
-  <TextView
-    android:id="@+id/tap_text"
-    android:text="@string/tap_instructions"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"/>
-  <TextView
-    android:id="@+id/camera_text"
-    android:text="@string/move_the_camera"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"/>
   <fragment
     android:id="@+id/map"
     android:layout_width="match_parent"
-    android:layout_height="400dp"
+    android:layout_height="450dp"
     class="com.google.android.gms.maps.SupportMapFragment"/>
 
   <RelativeLayout
@@ -32,7 +22,7 @@
           android:layout_alignParentTop="true"
           android:layout_marginRight="50dp"
           android:onClick="moveUp"
-          android:text="up" />
+          android:text="\u2191" />
       <Button
           android:id="@+id/mDn"
           android:layout_width="50dp"
@@ -42,7 +32,7 @@
           android:layout_marginRight="50dp"
           android:layout_marginTop="50dp"
           android:onClick="moveDn"
-          android:text="dn" />
+          android:text="\u2193" />
       <Button
           android:id="@+id/mRt"
           android:layout_width="50dp"
@@ -52,7 +42,7 @@
           android:layout_marginRight="0dp"
           android:layout_marginTop="50dp"
           android:onClick="moveRt"
-          android:text="rt" />
+          android:text="\u2192" />
       <Button
           android:id="@+id/mLt"
           android:layout_width="50dp"
@@ -62,7 +52,24 @@
           android:layout_marginRight="100dp"
           android:layout_marginTop="50dp"
           android:onClick="moveLt"
-          android:text="lt" />
+          android:text="\u2190" />
+      <TextView 
+          android:id="@+id/tap_text"
+          android:layout_alignParentTop="true"
+          android:layout_alignParentLeft="true"
+          android:layout_width="150dp"
+          android:layout_height="wrap_content"
+          android:text="no point selected"/>
+      <Button
+          android:id="@+id/mDel"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:layout_alignParentLeft="true"
+          android:layout_alignParentTop="true"
+          android:layout_marginTop="50dp"
+          android:onClick="doDelete"
+          android:text="Del" />
+      
   </RelativeLayout>
   
 </LinearLayout>

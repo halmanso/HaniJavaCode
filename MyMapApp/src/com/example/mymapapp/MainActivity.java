@@ -3,23 +3,18 @@ package com.example.mymapapp;
 import com.example.mymapapp.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
-import com.google.android.gms.maps.LocationSource.OnLocationChangedListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-//import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
 
 import android.graphics.Color;
 import android.location.Criteria;
@@ -35,27 +30,18 @@ public class MainActivity extends FragmentActivity
 implements OnMarkerDragListener,OnMarkerClickListener, OnMapClickListener, OnMapLongClickListener, OnCameraChangeListener {
 
 	private GoogleMap mMap;
-	private TextView mTapTextView;
-	private TextView mCameraTextView;
-	private static final LatLng BRISBANE = new LatLng(0, 0);
-	private static final LatLng MELBOURNE = new LatLng(40.44115394, -86.90162);
-	private static final LatLng SYDNEY = new LatLng(40.4057592, -86.90162);
-	private static final LatLng ADELAIDE = new LatLng(40.4057592, -86.96301);
-	private static final LatLng PERTH = new LatLng(40.44115394, -86.96301);
+	private TextView mTap;
 	private Marker[] mkr= new Marker[20];
-	private Polygon poly;
 	private int inc = 0;
 	private int selmkr;
-	
-	
+	private float zm;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.activity_main);
 	
-	mTapTextView = (TextView) findViewById(R.id.tap_text);
-	mCameraTextView = (TextView) findViewById(R.id.camera_text);
+	mTap = (TextView) findViewById(R.id.tap_text);
 	
 	setUpMapIfNeeded();
 	}
@@ -94,13 +80,7 @@ implements OnMarkerDragListener,OnMarkerClickListener, OnMapClickListener, OnMap
 		mMap.setOnCameraChangeListener(this);
 		mMap.setOnMarkerDragListener(this);
 		mMap.setOnMarkerClickListener(this);
-		//mMap.setLocationSource(mLocationSource);
-        //mMap.setOnMapLongClickListener(mLocationSource);        
-		mMap.setMyLocationEnabled(true); //shows the location button and enables it
-		//mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(100,100), 1));
-		
-		//mMap.addPolyline((new PolylineOptions())
-		//        .add(MELBOURNE,SYDNEY, ADELAIDE, PERTH,MELBOURNE).width(5));
+		mMap.setMyLocationEnabled(true); //shows the location button and enables it		
 	}
 	@Override
     protected void onPause() {
@@ -109,14 +89,12 @@ implements OnMarkerDragListener,OnMarkerClickListener, OnMapClickListener, OnMap
 	
 	@Override
 	public void onMapClick(LatLng point) {
-		mMap.clear();
 		inc++;
 		//mTapTextView.setText("tapped, point=" + point);
 		mkr[inc-1] = mMap.addMarker(new MarkerOptions()
-		.position(point)
-		.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
-		.draggable(true));
-		mMap.clear();
+		.position(point));
+		selmkr = inc;
+		mTap.setText("point #"+(selmkr)+" is selected");
 		doPolygon();
 	
 	}
@@ -125,6 +103,7 @@ implements OnMarkerDragListener,OnMarkerClickListener, OnMapClickListener, OnMap
 	public void onMapLongClick(LatLng point) {
 		//mTapTextView.setText("long pressed, point=" + point);
 		//mTapTextView.setText("long pressed, point=" + inc);
+		mTap.setText("no point selected");
 		mMap.clear();
 		inc = 0;
 	}
@@ -132,10 +111,14 @@ implements OnMarkerDragListener,OnMarkerClickListener, OnMapClickListener, OnMap
 	@Override
 	public void onCameraChange(final CameraPosition position) {
 		//mCameraTextView.setText(position.toString());
+		zm = position.zoom;
+		//mTap.setText("zoom"+zm);
+
 	}
 	
 	
 	public void doPolygon(){
+		mMap.clear();
 		PolygonOptions options = new PolygonOptions();
 		for (int i = 0; i < inc; i++){
 			mkr[i] = mMap.addMarker(new MarkerOptions()
@@ -144,7 +127,7 @@ implements OnMarkerDragListener,OnMarkerClickListener, OnMapClickListener, OnMap
 			.draggable(true));
 			options.add(mkr[i].getPosition());
 		}
-		poly = mMap.addPolygon(options
+		mMap.addPolygon(options
                 .strokeWidth(5)
                 .strokeColor(Color.BLACK));
 	}
@@ -159,9 +142,7 @@ implements OnMarkerDragListener,OnMarkerClickListener, OnMapClickListener, OnMap
 	@Override
 	public void onMarkerDragEnd(Marker arg0) {
 		// TODO Auto-generated method stub
-		mMap.clear();
 		doPolygon();
-		
 	}
 
 	@Override
@@ -170,38 +151,20 @@ implements OnMarkerDragListener,OnMarkerClickListener, OnMapClickListener, OnMap
 		
 	}
 	public void moveUp(View view) {
-		double lat,lon;
-		lat = mkr[selmkr].getPosition().latitude;
-		lon = mkr[selmkr].getPosition().longitude;
-        mkr[selmkr].setPosition(new LatLng(lat+0.001,lon));
-        mMap.clear();
-		doPolygon();
+		mvMkr(Math.PI/2);
     }
 	public void moveDn(View view) {
-		double lat,lon;
-		lat = mkr[selmkr].getPosition().latitude;
-		lon = mkr[selmkr].getPosition().longitude;
-        mkr[selmkr].setPosition(new LatLng(lat-0.001,lon));
-        mMap.clear();
-		doPolygon();
+		mvMkr(-Math.PI/2);
     }
 	public void moveRt(View view) {
-		double lat,lon;
-		lat = mkr[selmkr].getPosition().latitude;
-		lon = mkr[selmkr].getPosition().longitude;
-        mkr[selmkr].setPosition(new LatLng(lat,lon+0.001));
-        mMap.clear();
-		doPolygon();
-	    
+		mvMkr(0);
 	}
 	public void moveLt(View view) {
-		double lat,lon;
-		lat = mkr[selmkr].getPosition().latitude;
-		lon = mkr[selmkr].getPosition().longitude;
-        mkr[selmkr].setPosition(new LatLng(lat,lon-0.001));
-        mMap.clear();
+		mvMkr(Math.PI);
+	}
+	public void doDelete(View view) {
+		inc--;
 		doPolygon();
-	    
 	}
 
 	@Override
@@ -209,9 +172,18 @@ implements OnMarkerDragListener,OnMarkerClickListener, OnMapClickListener, OnMap
 		// TODO Auto-generated method stub
 		for (int i = 0;i<inc;i++){
 			if(arg0.equals(mkr[i])){
-				selmkr = i;
+				selmkr = i+1;
 			}
 		}
+		mTap.setText("point #"+(selmkr)+" is selected");
 		return false;
+	}
+	public void mvMkr(double phase){
+		double lat,lon;
+		lat = mkr[selmkr-1].getPosition().latitude;
+		lon = mkr[selmkr-1].getPosition().longitude;
+        mkr[selmkr-1].setPosition(new LatLng(lat+(0.000003*Math.pow(2, (21-zm)))*Math.sin(phase),lon+(0.000003*Math.pow(2, (21-zm)))*Math.cos(phase)));
+		doPolygon();
+		
 	}
 }

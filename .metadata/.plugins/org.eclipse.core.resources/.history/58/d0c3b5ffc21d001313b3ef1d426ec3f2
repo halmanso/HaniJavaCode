@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
+  <fragment
+    android:id="@+id/map"
+    android:layout_width="match_parent"
+    android:layout_height="450dp"
+    class="com.google.android.gms.maps.SupportMapFragment"/>
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" >
+
+      <Button
+          android:id="@+id/mUp"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:layout_alignParentRight="true"
+          android:layout_alignParentTop="true"
+          android:layout_marginRight="50dp"
+          android:onClick="moveUp"
+          android:text="\u2191" />
+      <Button
+          android:id="@+id/mDn"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:layout_alignParentRight="true"
+          android:layout_alignParentTop="true"
+          android:layout_marginRight="50dp"
+          android:layout_marginTop="50dp"
+          android:onClick="moveDn"
+          android:text="dn" />
+      <Button
+          android:id="@+id/mRt"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:layout_alignParentRight="true"
+          android:layout_alignParentTop="true"
+          android:layout_marginRight="0dp"
+          android:layout_marginTop="50dp"
+          android:onClick="moveRt"
+          android:text="rt" />
+      <Button
+          android:id="@+id/mLt"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:layout_alignParentRight="true"
+          android:layout_alignParentTop="true"
+          android:layout_marginRight="100dp"
+          android:layout_marginTop="50dp"
+          android:onClick="moveLt"
+          android:text="lt" />
+      <TextView 
+          android:id="@+id/tap_text"
+          android:layout_alignParentTop="true"
+          android:layout_alignParentLeft="true"
+          android:layout_width="100dp"
+          android:layout_height="50dp"
+          android:text="hi"/>
+      
+  </RelativeLayout>
+  
+</LinearLayout>

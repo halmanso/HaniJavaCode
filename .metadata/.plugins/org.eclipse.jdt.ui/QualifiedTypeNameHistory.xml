@@ -4,7 +4,13 @@
 <fullyQualifiedTypeName name="com.google.android.gms.maps.model.LatLng"/>
 <fullyQualifiedTypeName name="com.google.android.gms.maps.MapFragment"/>
 <fullyQualifiedTypeName name="com.google.android.gms.maps.model.MarkerOptions"/>
-<fullyQualifiedTypeName name="com.google.android.gms.maps.model.Marker"/>
 <fullyQualifiedTypeName name="com.google.android.gms.maps.model.BitmapDescriptorFactory"/>
+<fullyQualifiedTypeName name="com.google.android.gms.maps.CameraUpdateFactory"/>
+<fullyQualifiedTypeName name="android.location.LocationManager"/>
+<fullyQualifiedTypeName name="android.location.Criteria"/>
+<fullyQualifiedTypeName name="com.google.android.gms.maps.model.Polygon"/>
+<fullyQualifiedTypeName name="com.google.android.gms.maps.GoogleMap.OnMarkerDragListener"/>
+<fullyQualifiedTypeName name="com.google.android.gms.maps.model.Marker"/>
 <fullyQualifiedTypeName name="com.google.android.gms.maps.GoogleMap.OnMarkerClickListener"/>
+<fullyQualifiedTypeName name="java.lang.Math"/>
 </qualifiedTypeNameHistroy>
