@@ -2,4 +2,5 @@ com.android.ide.eclipse.adt.fixLegacyEditors=1
 com.android.ide.eclipse.adt.lintSeverities=MissingTranslation\=WARNING
 com.android.ide.eclipse.adt.sdk=C\:\\Users\\HM\\AppData\\Local\\Android\\android-studio\\sdk
 com.android.ide.eclipse.adt.xmlEditor=true
+design.palette.flyout.width=153
 eclipse.preferences.version=1

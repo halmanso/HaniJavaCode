@@ -184,6 +184,7 @@ containing a value of this type.
     public static final class id {
         public static final int hybrid=0x7f050004;
         public static final int mDel=0x7f05000b;
+        public static final int mDis=0x7f05000c;
         public static final int mDn=0x7f050007;
         public static final int mLt=0x7f050009;
         public static final int mRt=0x7f050008;
@@ -281,7 +282,14 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f06000e;
+        public static final int move_del=0x7f06001c;
+        public static final int move_dis=0x7f06001d;
+        public static final int move_dn=0x7f060019;
+        public static final int move_lt=0x7f06001b;
+        public static final int move_rt=0x7f06001a;
+        public static final int move_tap=0x7f06001e;
         public static final int move_the_camera=0x7f060017;
+        public static final int move_up=0x7f060018;
         public static final int tap_instructions=0x7f060016;
     }
     public static final class style {

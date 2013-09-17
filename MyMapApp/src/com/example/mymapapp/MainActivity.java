@@ -1,5 +1,8 @@
 package com.example.mymapapp;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.example.mymapapp.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -14,6 +17,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 
 import android.graphics.Color;
@@ -33,8 +37,15 @@ implements OnMarkerDragListener,OnMarkerClickListener, OnMapClickListener, OnMap
 	private TextView mTap;
 	private Marker[] mkr= new Marker[20];
 	private int inc = 0;
-	private int selmkr;
+	private int selmkr = 0;
 	private float zm;
+	private double bm;
+	private boolean j = true;
+	private Polygon poly;
+	private PolygonOptions options = new PolygonOptions();
+	
+	
+	private List<Marker> mkr1 = new ArrayList<Marker>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +91,12 @@ implements OnMarkerDragListener,OnMarkerClickListener, OnMapClickListener, OnMap
 		mMap.setOnCameraChangeListener(this);
 		mMap.setOnMarkerDragListener(this);
 		mMap.setOnMarkerClickListener(this);
-		mMap.setMyLocationEnabled(true); //shows the location button and enables it		
+		mMap.setMyLocationEnabled(true); //shows the location button and enables it	
+		options.add(new LatLng(0,0));
+		poly = mMap.addPolygon(options
+				.strokeWidth(2)
+                .strokeColor(Color.BLACK)
+                .fillColor(0x7FB5B1E0));
 	}
 	@Override
     protected void onPause() {
@@ -89,101 +105,126 @@ implements OnMarkerDragListener,OnMarkerClickListener, OnMapClickListener, OnMap
 	
 	@Override
 	public void onMapClick(LatLng point) {
+		if (inc>0){
+			mkr1.get(selmkr-1).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+		}
+		mkr1.add(selmkr, mMap.addMarker(new MarkerOptions()
+		.position(point)
+		.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+		.draggable(true)));
+		selmkr++;
 		inc++;
-		//mTapTextView.setText("tapped, point=" + point);
-		mkr[inc-1] = mMap.addMarker(new MarkerOptions()
-		.position(point));
-		selmkr = inc;
 		mTap.setText("point #"+(selmkr)+" is selected");
-		doPolygon();
-	
+		doOption();
+		
 	}
 	
 	@Override
 	public void onMapLongClick(LatLng point) {
-		//mTapTextView.setText("long pressed, point=" + point);
-		//mTapTextView.setText("long pressed, point=" + inc);
-		mTap.setText("no point selected");
-		mMap.clear();
-		inc = 0;
+		
 	}
 	
 	@Override
 	public void onCameraChange(final CameraPosition position) {
-		//mCameraTextView.setText(position.toString());
 		zm = position.zoom;
-		//mTap.setText("zoom"+zm);
-
+		bm = ((double)position.bearing)/180*Math.PI;
 	}
 	
-	
-	public void doPolygon(){
-		mMap.clear();
-		PolygonOptions options = new PolygonOptions();
-		for (int i = 0; i < inc; i++){
-			mkr[i] = mMap.addMarker(new MarkerOptions()
-			.position(mkr[i].getPosition())
-			.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
-			.draggable(true));
-			options.add(mkr[i].getPosition());
-		}
-		mMap.addPolygon(options
-                .strokeWidth(5)
-                .strokeColor(Color.BLACK));
-	}
 
 	@Override
 	public void onMarkerDrag(Marker arg0) {
-		// TODO Auto-generated method stub
-		
-		
+		doOption();
 	}
 
 	@Override
 	public void onMarkerDragEnd(Marker arg0) {
-		// TODO Auto-generated method stub
-		doPolygon();
+		mkr1.get(selmkr-1).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
 	}
 
 	@Override
 	public void onMarkerDragStart(Marker arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-	public void moveUp(View view) {
-		mvMkr(Math.PI/2);
-    }
-	public void moveDn(View view) {
-		mvMkr(-Math.PI/2);
-    }
-	public void moveRt(View view) {
-		mvMkr(0);
-	}
-	public void moveLt(View view) {
-		mvMkr(Math.PI);
-	}
-	public void doDelete(View view) {
-		inc--;
-		doPolygon();
-	}
-
-	@Override
-	public boolean onMarkerClick(Marker arg0) {
-		// TODO Auto-generated method stub
+		if(!arg0.equals(mkr1.get(selmkr-1))){
+			mkr1.get(selmkr-1).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+		}
 		for (int i = 0;i<inc;i++){
-			if(arg0.equals(mkr[i])){
+			if(arg0.equals(mkr1.get(i))){
 				selmkr = i+1;
 			}
 		}
 		mTap.setText("point #"+(selmkr)+" is selected");
+	}
+	public void moveUp(View view) {
+		if (inc != 0){
+			mvMkr(Math.PI/2);
+		}
+    }
+	public void moveDn(View view) {
+		if (inc != 0){
+			mvMkr(-Math.PI/2);
+		}
+    }
+	public void moveRt(View view) {
+		if (inc != 0){
+			mvMkr(0);
+		}
+	}
+	public void moveLt(View view) {
+		if (inc != 0){
+			mvMkr(Math.PI);
+		}
+	}
+	public void doDelete(View view) {
+		if(inc > 0){
+			mkr1.get(selmkr-1).remove();
+			mkr1.remove(selmkr-1);
+			inc--;
+			selmkr--;
+			mTap.setText("no point selected");
+			if(selmkr == 0){
+				selmkr = inc;
+			}
+			if(selmkr > 0){
+				mkr1.get(selmkr-1).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+				doOption();
+			}
+			mTap.setText("point #"+(selmkr)+" is selected " + inc + selmkr);
+			
+		}
+		
+	}
+	public void doDis(View view) {
+		for (int i = 0 ; i<inc ; i++){
+			mkr1.get(i).setVisible(!j);	
+		}
+		j = !j;
+	}
+	public void doOption(){
+		options = new PolygonOptions();
+		for (int i = 0; i < inc; i++){
+			options.add(mkr1.get(i).getPosition());
+		}
+		poly.setPoints(options.getPoints());
+	}
+
+	@Override
+	public boolean onMarkerClick(Marker arg0) {
+		mkr1.get(selmkr-1).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+		for (int i = 0;i<inc;i++){
+			if(arg0.equals(mkr1.get(i))){
+				selmkr = i+1;
+				arg0.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+			}
+		}
+		mTap.setText("point #"+(selmkr)+" is selected");
+		
+		
 		return false;
 	}
 	public void mvMkr(double phase){
 		double lat,lon;
-		lat = mkr[selmkr-1].getPosition().latitude;
-		lon = mkr[selmkr-1].getPosition().longitude;
-        mkr[selmkr-1].setPosition(new LatLng(lat+(0.000003*Math.pow(2, (21-zm)))*Math.sin(phase),lon+(0.000003*Math.pow(2, (21-zm)))*Math.cos(phase)));
-		doPolygon();
-		
+		lat = mkr1.get(selmkr-1).getPosition().latitude;
+		lon = mkr1.get(selmkr-1).getPosition().longitude;
+        mkr1.get(selmkr-1).setPosition(new LatLng(lat+(0.000005*Math.pow(2, (21-zm)))*Math.sin(phase-bm),lon+(0.000005*Math.pow(2, (21-zm)))*Math.cos(phase-bm)));
+		doOption();
 	}
 }
