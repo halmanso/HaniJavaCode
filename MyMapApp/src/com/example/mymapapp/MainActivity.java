@@ -1,10 +1,8 @@
 package com.example.mymapapp;
 
 import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_SATELLITE;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import com.example.mymapapp.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -31,9 +29,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
-import android.view.DragEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -43,7 +39,8 @@ import android.view.MotionEvent;
 
 
 public class MainActivity extends FragmentActivity
-implements OnCameraChangeListener,OnMarkerDragListener,OnMarkerClickListener, OnMapClickListener {
+implements OnCameraChangeListener,OnMarkerDragListener
+,OnMarkerClickListener, OnMapClickListener {
 
 	private GoogleMap mMap;
 	private GoogleMap mMap2;
@@ -51,15 +48,15 @@ implements OnCameraChangeListener,OnMarkerDragListener,OnMarkerClickListener, On
 	private int inc = 0;
 	private int selmkr = 0;
 	private boolean j = true;
-	private boolean win = false;
+	private boolean win = true;
 	private Polygon poly;
 	private PolygonOptions options = new PolygonOptions();
 	private List<Marker> mkr = new ArrayList<Marker>();
 	private Polyline line;
 	private PolylineOptions lineOptions = new PolylineOptions();
 	private int endm = 1;
-	private double  touchx;
-	private double  touchy;
+	private float  touchx;
+	private float  touchy;
 	private UiSettings mUiSettings;
 	private RelativeLayout rl;
 
@@ -79,15 +76,18 @@ implements OnCameraChangeListener,OnMarkerDragListener,OnMarkerClickListener, On
 	private void setUpMapIfNeeded() {
 		
 		if (mMap2 == null) {
-		    mMap2 = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map2))
+		    mMap2 = ((SupportMapFragment) getSupportFragmentManager()
+		    		.findFragmentById(R.id.map2))
 		            .getMap();
 		    mMap2.setMapType(MAP_TYPE_SATELLITE);
 		}
 		if (mMap == null) {
-		    mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
+		    mMap = ((SupportMapFragment) getSupportFragmentManager()
+		    		.findFragmentById(R.id.map))
 		            .getMap();
 		    //this code below is for centering the camera at current location
-		    LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+		    LocationManager locationManager =
+		    		(LocationManager) getSystemService(LOCATION_SERVICE);
 		    Criteria criteria = new Criteria();
 		    String provider = locationManager.getBestProvider(criteria, true);
 		    Location myLocation = locationManager.getLastKnownLocation(provider);
@@ -118,48 +118,10 @@ implements OnCameraChangeListener,OnMarkerDragListener,OnMarkerClickListener, On
 		mUiSettings.setCompassEnabled(false);
 		rl = (RelativeLayout) findViewById(R.id.lay);
 
-		
-		/*Button drg = (Button)findViewById(R.id.mdrg);
+		Button drg = (Button)findViewById(R.id.mdrg2);
 		drg.setOnTouchListener(new View.OnTouchListener() {
-			private Handler mHandler;
-		    @Override 
-		    public boolean onTouch(View v, MotionEvent event) {
-		        switch(event.getAction()) {
-		        case MotionEvent.ACTION_DOWN:
-		            if (mHandler != null) return true;
-		            mHandler = new Handler();
-		            mHandler.postDelayed(mAction, 50);
-		        case MotionEvent.ACTION_MOVE:
-		        	touchx = (double)event.getX() - 50;
-		    	    touchy = (double)event.getY() - 50;
-		    	    break;
-		        case MotionEvent.ACTION_UP:
-		            if (mHandler == null) return true;
-		            mHandler.removeCallbacks(mAction);
-		            mHandler = null;
-		            break;
-		        }
-		        return false;
-		    }
-		    Runnable mAction = new Runnable() {
-		        @Override public void run() {
-		        	double angle;
-		        	int amp;
-		        	angle = -Math.atan2((double)(touchy),(double)(touchx));
-		        	amp = (int)(Math.sqrt(Math.pow(touchx, 2)+Math.pow(touchy, 2))/40);
-		        	amp = Math.min(amp, 10);
-		        	mTap.setText(" "+amp);
-		        	if (inc > 0){
-		        		mvMkr(angle,amp);
-		        	}
-		            mHandler.postDelayed(this, 50);
-		            
-		        }
-		    };
-		});*/
-		Button drg2 = (Button)findViewById(R.id.mdrg2);
-		drg2.setOnTouchListener(new View.OnTouchListener() {
 			Point pmkr = new Point();
+			Point pmkr2 = new Point();
 		    @Override 
 		    public boolean onTouch(View v, MotionEvent event) {
 		    	if(inc>0){
@@ -170,13 +132,17 @@ implements OnCameraChangeListener,OnMarkerDragListener,OnMarkerClickListener, On
 			    			rl.setVisibility(View.VISIBLE);
 			    			mvScreen();
 			    		}
-			        	pmkr.set(mMap.getProjection().toScreenLocation(mkr.get(selmkr-1).getPosition()).x
-			    				,mMap.getProjection().toScreenLocation(mkr.get(selmkr-1).getPosition()).y);
+			        	pmkr.set(mMap.getProjection().toScreenLocation(mkr.get(selmkr-1)
+			        			.getPosition()).x,mMap.getProjection()
+			        			.toScreenLocation(mkr.get(selmkr-1).getPosition()).y);
+			        	pmkr2.set((int)event.getX(),(int)event.getY());
 			        	break;
 			        case MotionEvent.ACTION_MOVE:
-			        	touchx = (double)event.getX() - 50 + pmkr.x;
-			    	    touchy = (double)event.getY() - 50 + pmkr.y;
-			    	    mkr.get(selmkr-1).setPosition(mMap.getProjection().fromScreenLocation(new Point((int)touchx,(int)touchy)));
+			        	touchx = (event.getX() - pmkr2.x) + pmkr.x;
+			    	    touchy = (event.getY() - pmkr2.y) + pmkr.y;
+			    	    mkr.get(selmkr-1).setPosition(mMap.getProjection()
+			    	    		.fromScreenLocation(new Point(Math.round(touchx)
+			    	    				,Math.round(touchy))));
 			    	    if (win){
 			    			mvScreen();
 			    		}
@@ -243,26 +209,7 @@ implements OnCameraChangeListener,OnMarkerDragListener,OnMarkerClickListener, On
 		}
 		doOption();
 	}
-	/*public void moveUp(View view) {
-		if (inc != 0){
-			mvMkr(Math.PI/2,10);
-		}
-    }
-	public void moveDn(View view) {
-		if (inc != 0){
-			mvMkr(-Math.PI/2,10);
-		}
-    }
-	public void moveRt(View view) {
-		if (inc != 0){
-			mvMkr(0,10);
-		}
-	}
-	public void moveLt(View view) {
-		if (inc != 0){
-			mvMkr(Math.PI,10);
-		}
-	}*/
+
 	public void doDelete(View view) {
 		if(inc > 0){
 			mkr.get(selmkr-1).remove();
@@ -291,7 +238,8 @@ implements OnCameraChangeListener,OnMarkerDragListener,OnMarkerClickListener, On
 		for (int i = 0; i < inc; i++){
 			options.add(mkr.get(i).getPosition());
 		}
-		lineOptions.add(mkr.get(selmkr-1).getPosition(),mkr.get(endm-1).getPosition());
+		lineOptions.add(mkr.get(selmkr-1).getPosition(),mkr.get(endm-1)
+				.getPosition());
 		poly.setPoints(options.getPoints());
 		line.setPoints(lineOptions.getPoints());
 		
@@ -307,16 +255,9 @@ implements OnCameraChangeListener,OnMarkerDragListener,OnMarkerClickListener, On
 		}
 		return false;
 	}
-	/*public void mvMkr(double phase,int amp){
-		Point scrx = new Point(0,0);
-		scrx.set(mMap.getProjection().toScreenLocation(mkr.get(selmkr-1).getPosition()).x
-				,mMap.getProjection().toScreenLocation(mkr.get(selmkr-1).getPosition()).y);
-		scrx.set(scrx.x + Math.round((float)(amp * Math.cos(phase))), scrx.y - Math.round((float)(amp * Math.sin(phase))));
-		mkr.get(selmkr-1).setPosition(mMap.getProjection().fromScreenLocation(scrx));
-		doOption();
-	}*/
 	public void flagGreen(Marker arg0){
-		BitmapDescriptor sel = BitmapDescriptorFactory.fromResource(R.drawable.selected_vertex);
+		BitmapDescriptor sel = BitmapDescriptorFactory
+				.fromResource(R.drawable.selected_vertex);
 		arg0.setIcon(sel);
 		if (inc > 0){
 			if (selmkr == inc){
@@ -329,13 +270,17 @@ implements OnCameraChangeListener,OnMarkerDragListener,OnMarkerClickListener, On
 		doOption();
 	}
 	public void flagRed(Marker arg0){
-		BitmapDescriptor unsel = BitmapDescriptorFactory.fromResource(R.drawable.unselected_vertex);
+		BitmapDescriptor unsel = BitmapDescriptorFactory
+				.fromResource(R.drawable.unselected_vertex);
 		arg0.setIcon(unsel);
 	}
 	public void mvScreen(){
-		mMap2.moveCamera(CameraUpdateFactory.newLatLngZoom(mkr.get(selmkr-1).getPosition(),mMap.getCameraPosition().zoom + 2));
-        rl.setX(mMap.getProjection().toScreenLocation(mkr.get(selmkr-1).getPosition()).x-170);
-        rl.setY(Math.min(mMap.getProjection().toScreenLocation(mkr.get(selmkr-1).getPosition()).y-410,575));
+		mMap2.moveCamera(CameraUpdateFactory.newLatLngZoom(mkr.get(selmkr-1)
+				.getPosition(),mMap.getCameraPosition().zoom + 2));
+        rl.setX(mMap.getProjection().toScreenLocation(mkr.get(selmkr-1)
+        		.getPosition()).x-170);
+        rl.setY(Math.min(mMap.getProjection().toScreenLocation(mkr.get(selmkr-1)
+        		.getPosition()).y-410,575));
 	}
 	@Override
 	public void onCameraChange(CameraPosition arg0) {

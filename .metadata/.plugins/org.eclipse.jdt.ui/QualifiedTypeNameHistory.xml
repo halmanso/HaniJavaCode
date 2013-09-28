@@ -32,8 +32,8 @@
 <fullyQualifiedTypeName name="android.widget.RelativeLayout"/>
 <fullyQualifiedTypeName name="com.google.android.gms.maps.model.CameraPosition.Builder"/>
 <fullyQualifiedTypeName name="com.google.android.gms.maps.model.CameraPosition"/>
-<fullyQualifiedTypeName name="java.lang.Math"/>
 <fullyQualifiedTypeName name="com.google.android.gms.maps.model.BitmapDescriptor"/>
 <fullyQualifiedTypeName name="android.view.View.OnTouchListener"/>
 <fullyQualifiedTypeName name="android.view.View.OnDragListener"/>
+<fullyQualifiedTypeName name="java.lang.Math"/>
 </qualifiedTypeNameHistroy>
