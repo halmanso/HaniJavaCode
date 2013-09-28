@@ -10,7 +10,7 @@
     <string name="move_lt">\u2190</string>
     <string name="move_del">Del</string>
     <string name="move_dis">dis</string>
-    <string name="move_tap">no point selected</string>
+    <string name="drag"></string>
     
     
 </resources>

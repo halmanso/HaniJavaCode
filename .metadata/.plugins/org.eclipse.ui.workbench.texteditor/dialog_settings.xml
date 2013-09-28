@@ -13,17 +13,19 @@
 		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="" key="selection"/>
+		<item value="Icon" key="selection"/>
 		<list key="findhistory">
-			<item value="onCl"/>
-			<item value="mPerth"/>
-			<item value="mMap"/>
-			<item value="change"/>
-			<item value="scroll"/>
-			<item value="scroll_up"/>
-			<item value="up"/>
+			<item value="icon"/>
+			<item value="mkr"/>
+			<item value="touchx"/>
+			<item value="endm"/>
+			<item value="mkr2"/>
+			<item value="bm"/>
+			<item value="onTouch"/>
+			<item value="mTap"/>
 		</list>
 		<list key="replacehistory">
+			<item value="mkr"/>
 			<item value="selmkr"/>
 		</list>
 	</section>

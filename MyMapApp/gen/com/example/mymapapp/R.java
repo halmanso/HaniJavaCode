@@ -179,17 +179,31 @@ containing a value of this type.
         public static final int common_signin_btn_text_normal_light=0x7f020015;
         public static final int common_signin_btn_text_pressed_dark=0x7f020016;
         public static final int common_signin_btn_text_pressed_light=0x7f020017;
-        public static final int ic_launcher=0x7f020018;
+        public static final int cross_vertex=0x7f020018;
+        public static final int cross_vertex_2=0x7f020019;
+        public static final int document0002=0x7f02001a;
+        public static final int ic_launcher=0x7f02001b;
+        public static final int magenta_1=0x7f02001c;
+        public static final int magenta_2=0x7f02001d;
+        public static final int marker_icon=0x7f02001e;
+        public static final int selected2_vertex=0x7f02001f;
+        public static final int selected_vertex=0x7f020020;
+        public static final int test=0x7f020021;
+        public static final int unselected_vertex=0x7f020022;
     }
     public static final class id {
         public static final int hybrid=0x7f050004;
-        public static final int mDel=0x7f05000b;
-        public static final int mDis=0x7f05000c;
-        public static final int mDn=0x7f050007;
-        public static final int mLt=0x7f050009;
-        public static final int mRt=0x7f050008;
-        public static final int mUp=0x7f050006;
+        public static final int ivMap2Marker=0x7f050008;
+        public static final int lay=0x7f050006;
+        public static final int lay2=0x7f050009;
+        public static final int mDel=0x7f05000e;
+        public static final int mDis=0x7f05000f;
+        public static final int mMinus=0x7f05000d;
+        public static final int mPlus=0x7f05000c;
+        public static final int mWin=0x7f050010;
         public static final int map=0x7f050005;
+        public static final int map2=0x7f050007;
+        public static final int mdrg2=0x7f05000b;
         public static final int none=0x7f050000;
         public static final int normal=0x7f050001;
         public static final int satellite=0x7f050002;
@@ -282,12 +296,12 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f06000e;
+        public static final int drag=0x7f06001e;
         public static final int move_del=0x7f06001c;
         public static final int move_dis=0x7f06001d;
         public static final int move_dn=0x7f060019;
         public static final int move_lt=0x7f06001b;
         public static final int move_rt=0x7f06001a;
-        public static final int move_tap=0x7f06001e;
         public static final int move_the_camera=0x7f060017;
         public static final int move_up=0x7f060018;
         public static final int tap_instructions=0x7f060016;
