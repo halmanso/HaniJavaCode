@@ -1,8 +1,10 @@
 package com.example.mymapapp;
 
 import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_SATELLITE;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import com.example.mymapapp.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,6 +25,7 @@ import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.location.Criteria;
@@ -34,7 +37,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
+//import android.widget.TextView;
 import android.view.MotionEvent;
 
 
@@ -42,9 +45,10 @@ public class MainActivity extends FragmentActivity
 implements OnCameraChangeListener,OnMarkerDragListener
 ,OnMarkerClickListener, OnMapClickListener {
 
+	
 	private GoogleMap mMap;
 	private GoogleMap mMap2;
-	private TextView mTap;
+	//private TextView mTap;
 	private int inc = 0;
 	private int selmkr = 0;
 	private boolean j = true;
@@ -65,7 +69,7 @@ implements OnCameraChangeListener,OnMarkerDragListener
 	protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.activity_main);
-	mTap = (TextView) findViewById(R.id.tap_text);
+	//mTap = (TextView) findViewById(R.id.tap_text);
 	setUpMapIfNeeded();
 	}
 	@Override
@@ -98,7 +102,7 @@ implements OnCameraChangeListener,OnMarkerDragListener
 		    mMap.setMapType(MAP_TYPE_SATELLITE);
 		    ///////////////////////////////////////////////////////
 		    
-		    if (mMap != null) {
+		    if (mMap != null && mMap2 != null) {
 		        setUpMap();
 		    }
 		}
@@ -118,6 +122,7 @@ implements OnCameraChangeListener,OnMarkerDragListener
 		mUiSettings.setCompassEnabled(false);
 		rl = (RelativeLayout) findViewById(R.id.lay);
 
+		
 		Button drg = (Button)findViewById(R.id.mdrg2);
 		drg.setOnTouchListener(new View.OnTouchListener() {
 			Point pmkr = new Point();
@@ -143,9 +148,7 @@ implements OnCameraChangeListener,OnMarkerDragListener
 			    	    mkr.get(selmkr-1).setPosition(mMap.getProjection()
 			    	    		.fromScreenLocation(new Point(Math.round(touchx)
 			    	    				,Math.round(touchy))));
-			    	    if (win){
-			    			mvScreen();
-			    		}
+			    	    if (win)mvScreen();
 			    	    doOption();
 			    	    break;
 			        case MotionEvent.ACTION_UP:
@@ -173,9 +176,7 @@ implements OnCameraChangeListener,OnMarkerDragListener
     }
 	@Override
 	public void onMapClick(LatLng point) {
-		if (inc>0){
-			flagRed(mkr.get(selmkr-1));
-		}
+		if (inc>0)flagRed(mkr.get(selmkr-1));
 		mkr.add(selmkr, mMap.addMarker(new MarkerOptions()
 		.position(point)
 		.anchor((float)0.5, (float)0.5)
@@ -187,18 +188,14 @@ implements OnCameraChangeListener,OnMarkerDragListener
 	}
 	@Override
 	public void onMarkerDrag(Marker arg0) {
-		if (arg0.equals(mkr.get(selmkr-1)) && win){
-			mvScreen();
-		}
+		if (arg0.equals(mkr.get(selmkr-1)) && win) mvScreen();
 		doOption();
-		
 	}
 
 	@Override
 	public void onMarkerDragEnd(Marker arg0) {
 		rl.setVisibility(View.INVISIBLE);
 		doOption();
-		
 	}
 
 	@Override
@@ -216,13 +213,9 @@ implements OnCameraChangeListener,OnMarkerDragListener
 			mkr.remove(selmkr-1);
 			inc--;
 			selmkr--;
-			if(selmkr == 0){
-				selmkr = inc;
-			}
-			if(selmkr > 0){
-				flagGreen(mkr.get(selmkr-1));
-			}
-			mTap.setText(inc+" "+selmkr);
+			if(selmkr == 0)selmkr = inc;
+			if(selmkr > 0)flagGreen(mkr.get(selmkr-1));
+			//mTap.setText(inc+" "+selmkr);
 		}
 	}
 	public void doDis(View view) {
@@ -260,12 +253,8 @@ implements OnCameraChangeListener,OnMarkerDragListener
 				.fromResource(R.drawable.selected_vertex);
 		arg0.setIcon(sel);
 		if (inc > 0){
-			if (selmkr == inc){
-				endm = 1;
-			}
-			if (selmkr != inc){
-				endm = selmkr+1;
-			}
+			if (selmkr == inc)endm = 1;
+			if (selmkr != inc)endm = selmkr+1;
 		}
 		doOption();
 	}
@@ -278,9 +267,9 @@ implements OnCameraChangeListener,OnMarkerDragListener
 		mMap2.moveCamera(CameraUpdateFactory.newLatLngZoom(mkr.get(selmkr-1)
 				.getPosition(),mMap.getCameraPosition().zoom + 2));
         rl.setX(mMap.getProjection().toScreenLocation(mkr.get(selmkr-1)
-        		.getPosition()).x-170);
-        rl.setY(Math.min(mMap.getProjection().toScreenLocation(mkr.get(selmkr-1)
-        		.getPosition()).y-410,575));
+        		.getPosition()).x - 78 * Resources.getSystem().getDisplayMetrics().density);
+        rl.setY(mMap.getProjection().toScreenLocation(mkr.get(selmkr-1)
+        		.getPosition()).y - 170 * Resources.getSystem().getDisplayMetrics().density);
 	}
 	@Override
 	public void onCameraChange(CameraPosition arg0) {
@@ -294,24 +283,16 @@ implements OnCameraChangeListener,OnMarkerDragListener
 	public void Plus(View v){
 		if(inc>1){
 			flagRed(mkr.get(selmkr-1));
-			if(selmkr == inc){
-				selmkr = 1;
-			}
-			else if(selmkr != inc){
-				selmkr++;
-			}
+			if(selmkr == inc)selmkr = 1;
+			else if(selmkr != inc) selmkr++;
 			flagGreen(mkr.get(selmkr-1));
 		}
 	}
 	public void Minus(View v){
 		if(inc>1){
 			flagRed(mkr.get(selmkr-1));
-			if(selmkr == 1){
-				selmkr = inc;
-			}
-			else if(selmkr != 1){
-				selmkr--;
-			}
+			if(selmkr == 1) selmkr = inc;
+			else if(selmkr != 1) selmkr--;
 			flagGreen(mkr.get(selmkr-1));
 		}
 	}

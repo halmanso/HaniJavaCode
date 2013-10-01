@@ -13,16 +13,16 @@
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="touchx" key="selection"/>
+		<item value="null" key="selection"/>
 		<list key="findhistory">
+			<item value="null"/>
+			<item value="poly"/>
+			<item value="mTap"/>
 			<item value="touchx"/>
 			<item value="icon"/>
 			<item value="mkr"/>
 			<item value="endm"/>
 			<item value="mkr2"/>
-			<item value="bm"/>
-			<item value="onTouch"/>
-			<item value="mTap"/>
 		</list>
 		<list key="replacehistory">
 			<item value="mkr"/>
