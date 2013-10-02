@@ -21,8 +21,7 @@
 	   	android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_alignParentLeft="true"
-	    android:layout_alignTop="@id/map"
-	    android:layout_marginLeft="100dp"
+	    android:layout_alignParentTop="true"
 	    android:padding="1dp"
 	    android:visibility="invisible"
 	    android:background="#000000" >
@@ -31,14 +30,14 @@
 		    android:layout_width="150dp"
 		    android:layout_height="150dp"
 		    class="com.google.android.gms.maps.SupportMapFragment"/>
-		  <ImageView 
+		  <ImageView
 		  	android:id="@+id/ivMap2Marker"
 		  	android:contentDescription="@null"
 		  	android:layout_height="150dp"
 		  	android:layout_width="150dp"
 		  	android:layout_alignParentTop="true"
 		  	android:layout_alignParentLeft="true"
-		  	android:src="@drawable/cross_vertex_3"/>
+		  	android:src="@drawable/cross_vertex_5"/>
 	  </RelativeLayout>
   </RelativeLayout>
   

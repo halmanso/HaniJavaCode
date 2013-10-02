@@ -1,7 +1,7 @@
 package com.example.mymapapp;
 
-import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_SATELLITE;
 import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_HYBRID;
+import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_SATELLITE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,35 +36,26 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.RelativeLayout;
-//import android.widget.TextView;
 import android.view.MotionEvent;
 
 
 public class MainActivity extends FragmentActivity
 implements OnCameraChangeListener,OnMarkerDragListener
 ,OnMarkerClickListener, OnMapClickListener {
-
 	
-	private GoogleMap mMap;
-	private GoogleMap mMap2;
+	private GoogleMap mMap = null;
+	private GoogleMap mMap2 = null;
 	//private TextView mTap;
 	private int inc = 0;
 	private int selmkr = 0;
-	private boolean j = true;
+	private boolean hideT = true;
 	private Polygon poly;
-	private PolygonOptions options = new PolygonOptions();
 	private List<Marker> mkr = new ArrayList<Marker>();
 	private Polyline line;
-	private PolylineOptions lineOptions = new PolylineOptions();
 	private int endm = 1;
-	private float  touchx;
-	private float  touchy;
-	private UiSettings mUiSettings;
 	private RelativeLayout rl;
 
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
@@ -78,36 +69,29 @@ implements OnCameraChangeListener,OnMarkerDragListener
 		setUpMapIfNeeded();
 	}
 	private void setUpMapIfNeeded() {
-		
-		if (mMap2 == null) {
-		    mMap2 = ((SupportMapFragment) getSupportFragmentManager()
-		    		.findFragmentById(R.id.map2))
-		            .getMap();
-		    mMap2.setMapType(MAP_TYPE_HYBRID);
-		}
 		if (mMap == null) {
 		    mMap = ((SupportMapFragment) getSupportFragmentManager()
 		    		.findFragmentById(R.id.map))
 		            .getMap();
-		    //this code below is for centering the camera at current location
+		}
+		if (mMap2 == null) {
+		    mMap2 = ((SupportMapFragment) getSupportFragmentManager()
+		    		.findFragmentById(R.id.map2))
+		            .getMap();
+		  //this code below is for centering the camera at current location
 		    LocationManager locationManager =
 		    		(LocationManager) getSystemService(LOCATION_SERVICE);
 		    Criteria criteria = new Criteria();
 		    String provider = locationManager.getBestProvider(criteria, true);
 		    Location myLocation = locationManager.getLastKnownLocation(provider);
-		    double latitude = myLocation.getLatitude();
-		    double longitude = myLocation.getLongitude();
-		    LatLng latLng = new LatLng(latitude, longitude);      
+		    LatLng latLng = new LatLng(40.4282,-86.91775);
+		    if(myLocation != null)latLng = new LatLng(myLocation.getLatitude()
+		    		, myLocation.getLongitude());    
 		    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
-		    mMap.setMapType(MAP_TYPE_HYBRID);
 		    ///////////////////////////////////////////////////////
-		    
-		    if (mMap != null && mMap2 != null) {
-		        setUpMap();
-		    }
+
 		}
-		
-		
+		if (mMap != null && mMap2 != null) setUpMap();
 	}
 	private void setUpMap() {
 		mMap.setOnMapClickListener(this);
@@ -116,17 +100,26 @@ implements OnCameraChangeListener,OnMarkerDragListener
 		mMap.setOnMarkerClickListener(this);
 		mMap.setMyLocationEnabled(true);
 		
-		mUiSettings = mMap2.getUiSettings();
-		mUiSettings.setZoomControlsEnabled(false);
-		mUiSettings.setAllGesturesEnabled(false);
-		mUiSettings.setCompassEnabled(false);
+		UiSettings mU,mU2;
+		
+		mU = mMap.getUiSettings();
+		mU.setZoomControlsEnabled(false);
+		
+		mU2 = mMap2.getUiSettings();
+		mU2.setZoomControlsEnabled(false);
+		mU2.setAllGesturesEnabled(false);
+		mU2.setCompassEnabled(false);
 		rl = (RelativeLayout) findViewById(R.id.lay);
-
+		
+	    mMap.setMapType(MAP_TYPE_HYBRID);
+	    mMap2.setMapType(MAP_TYPE_SATELLITE);
 		
 		Button drg = (Button)findViewById(R.id.mdrg2);
 		drg.setOnTouchListener(new View.OnTouchListener() {
 			Point pmkr = new Point();
 			Point pmkr2 = new Point();
+			float  touchx;
+			float  touchy;
 		    @Override 
 		    public boolean onTouch(View v, MotionEvent event) {
 		    	if(inc>0){
@@ -158,15 +151,13 @@ implements OnCameraChangeListener,OnMarkerDragListener
 		        return false;
 		    }
 		});
-		options.add(new LatLng(0,0));
-		poly = mMap.addPolygon(options
+		if (poly == null) poly = mMap.addPolygon(new PolygonOptions().add(new LatLng(0,0))
 				.strokeWidth(2)
                 .strokeColor(Color.BLACK)
                 .fillColor(0x7FB5B1E0));
-		line = mMap.addPolyline(new PolylineOptions().add(new LatLng(0,0))
+		if (line == null) line = mMap.addPolyline(new PolylineOptions().add(new LatLng(0,0))
 				.color(Color.WHITE)
 				.width(2));
-		
 	}
 	@Override
     protected void onPause() {
@@ -179,7 +170,7 @@ implements OnCameraChangeListener,OnMarkerDragListener
 		.position(point)
 		.anchor((float)0.5, (float)0.5)
 		.draggable(true)
-		.visible(j)));
+		.visible(hideT)));
 		selmkr++;
 		inc++;
 		flagGreen(mkr.get(selmkr-1));
@@ -218,14 +209,14 @@ implements OnCameraChangeListener,OnMarkerDragListener
 	}
 	public void doDis(View view) {
 		for (int i = 0 ; i<inc ; i++){
-			mkr.get(i).setVisible(!j);	
+			mkr.get(i).setVisible(!hideT);	
 		}
-		line.setVisible(!j);
-		j = !j;
+		line.setVisible(!hideT);
+		hideT = !hideT;
 	}
 	public void doOption(){
-		options = new PolygonOptions();
-		lineOptions = new PolylineOptions();
+		PolygonOptions options = new PolygonOptions();
+		PolylineOptions lineOptions = new PolylineOptions();
 		for (int i = 0; i < inc; i++){
 			options.add(mkr.get(i).getPosition());
 		}
