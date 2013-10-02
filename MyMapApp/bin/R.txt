@@ -73,7 +73,6 @@ int id mDel 0x7f05000e
 int id mDis 0x7f05000f
 int id mMinus 0x7f05000d
 int id mPlus 0x7f05000c
-int id mWin 0x7f050010
 int id map 0x7f050005
 int id map2 0x7f050007
 int id mdrg2 0x7f05000b

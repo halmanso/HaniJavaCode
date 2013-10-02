@@ -204,7 +204,6 @@ containing a value of this type.
         public static final int mDis=0x7f05000f;
         public static final int mMinus=0x7f05000d;
         public static final int mPlus=0x7f05000c;
-        public static final int mWin=0x7f050010;
         public static final int map=0x7f050005;
         public static final int map2=0x7f050007;
         public static final int mdrg2=0x7f05000b;

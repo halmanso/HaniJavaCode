@@ -1,6 +1,7 @@
 package com.example.mymapapp;
 
 import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_SATELLITE;
+import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_HYBRID;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,6 @@ implements OnCameraChangeListener,OnMarkerDragListener
 	private int inc = 0;
 	private int selmkr = 0;
 	private boolean j = true;
-	private boolean win = true;
 	private Polygon poly;
 	private PolygonOptions options = new PolygonOptions();
 	private List<Marker> mkr = new ArrayList<Marker>();
@@ -83,7 +83,7 @@ implements OnCameraChangeListener,OnMarkerDragListener
 		    mMap2 = ((SupportMapFragment) getSupportFragmentManager()
 		    		.findFragmentById(R.id.map2))
 		            .getMap();
-		    mMap2.setMapType(MAP_TYPE_SATELLITE);
+		    mMap2.setMapType(MAP_TYPE_HYBRID);
 		}
 		if (mMap == null) {
 		    mMap = ((SupportMapFragment) getSupportFragmentManager()
@@ -99,7 +99,7 @@ implements OnCameraChangeListener,OnMarkerDragListener
 		    double longitude = myLocation.getLongitude();
 		    LatLng latLng = new LatLng(latitude, longitude);      
 		    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
-		    mMap.setMapType(MAP_TYPE_SATELLITE);
+		    mMap.setMapType(MAP_TYPE_HYBRID);
 		    ///////////////////////////////////////////////////////
 		    
 		    if (mMap != null && mMap2 != null) {
@@ -133,10 +133,8 @@ implements OnCameraChangeListener,OnMarkerDragListener
 		   
 			        switch(event.getAction()) {
 			        case MotionEvent.ACTION_DOWN:
-			        	if (win){
-			    			rl.setVisibility(View.VISIBLE);
-			    			mvScreen();
-			    		}
+		    			rl.setVisibility(View.VISIBLE);
+		    			mvScreen();
 			        	pmkr.set(mMap.getProjection().toScreenLocation(mkr.get(selmkr-1)
 			        			.getPosition()).x,mMap.getProjection()
 			        			.toScreenLocation(mkr.get(selmkr-1).getPosition()).y);
@@ -148,7 +146,7 @@ implements OnCameraChangeListener,OnMarkerDragListener
 			    	    mkr.get(selmkr-1).setPosition(mMap.getProjection()
 			    	    		.fromScreenLocation(new Point(Math.round(touchx)
 			    	    				,Math.round(touchy))));
-			    	    if (win)mvScreen();
+			    	    mvScreen();
 			    	    doOption();
 			    	    break;
 			        case MotionEvent.ACTION_UP:
@@ -188,7 +186,7 @@ implements OnCameraChangeListener,OnMarkerDragListener
 	}
 	@Override
 	public void onMarkerDrag(Marker arg0) {
-		if (arg0.equals(mkr.get(selmkr-1)) && win) mvScreen();
+		if (arg0.equals(mkr.get(selmkr-1))) mvScreen();
 		doOption();
 	}
 
@@ -200,7 +198,7 @@ implements OnCameraChangeListener,OnMarkerDragListener
 
 	@Override
 	public void onMarkerDragStart(Marker arg0) {
-		if (arg0.equals(mkr.get(selmkr-1)) && win){
+		if (arg0.equals(mkr.get(selmkr-1))){
 			rl.setVisibility(View.VISIBLE);
 			mvScreen();
 		}
@@ -276,9 +274,6 @@ implements OnCameraChangeListener,OnMarkerDragListener
 		if (mMap2.getCameraPosition().bearing != mMap.getCameraPosition().bearing){
 			mMap2.moveCamera(CameraUpdateFactory.newCameraPosition(arg0));
 		}
-	}
-	public void doWin(View v){
-		win = ((CheckBox) v).isChecked();
 	}
 	public void Plus(View v){
 		if(inc>1){

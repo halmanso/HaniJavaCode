@@ -55,8 +55,8 @@
       <Button
           android:id="@+id/mdrg2"
           android:layout_centerHorizontal="true"
-          android:layout_width="50dp"
-          android:layout_height="50dp"
+          android:layout_width="100dp"
+          android:layout_height="75dp"
           android:layout_alignParentTop="true"
           android:text="@string/drag" />
       <Button
@@ -93,15 +93,6 @@
           android:layout_marginLeft="50dp"
           android:onClick="doDis"
           android:text="@string/move_dis" />
-      <CheckBox 
-          android:id="@+id/mWin"
-          android:layout_width="wrap_content"
-	      android:layout_height="wrap_content"
-	      android:layout_alignParentLeft="true"
-          android:layout_alignParentTop="true"
-          android:layout_marginLeft="100dp"
-	      android:checked="true"
-          android:onClick="doWin"/>
   </RelativeLayout>
   
 </LinearLayout>
