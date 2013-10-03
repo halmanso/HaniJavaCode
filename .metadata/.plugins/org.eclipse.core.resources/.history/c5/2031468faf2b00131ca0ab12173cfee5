@@ -69,15 +69,15 @@ implements OnCameraChangeListener,OnMarkerDragListener
 		setUpMapIfNeeded();
 	}
 	private void setUpMapIfNeeded() {
-		if (mMap == null || mMap2 == null) {
-			while(mMap == null || mMap2 == null){
-				mMap = ((SupportMapFragment) getSupportFragmentManager()
-			    		.findFragmentById(R.id.map))
-			            .getMap();
-			    mMap2 = ((SupportMapFragment) getSupportFragmentManager()
-			    		.findFragmentById(R.id.map2))
-			            .getMap();
-			}
+		if (mMap == null) {
+		    mMap = ((SupportMapFragment) getSupportFragmentManager()
+		    		.findFragmentById(R.id.map))
+		            .getMap();
+		}
+		if (mMap2 == null) {
+		    mMap2 = ((SupportMapFragment) getSupportFragmentManager()
+		    		.findFragmentById(R.id.map2))
+		            .getMap();
 		  //this code below is for centering the camera at current location
 		    LocationManager locationManager =
 		    		(LocationManager) getSystemService(LOCATION_SERVICE);
@@ -89,8 +89,8 @@ implements OnCameraChangeListener,OnMarkerDragListener
 		    		, myLocation.getLongitude());    
 		    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
 		    ///////////////////////////////////////////////////////
+
 		}
-		
 		if (mMap != null && mMap2 != null) setUpMap();
 	}
 	private void setUpMap() {
@@ -99,6 +99,7 @@ implements OnCameraChangeListener,OnMarkerDragListener
 		mMap.setOnMarkerDragListener(this);
 		mMap.setOnMarkerClickListener(this);
 		mMap.setMyLocationEnabled(true);
+		
 		UiSettings mU,mU2;
 		
 		mU = mMap.getUiSettings();

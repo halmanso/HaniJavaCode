@@ -24,7 +24,7 @@
 	    android:layout_alignParentTop="true"
 	    android:padding="1dp"
 	    android:visibility="gone"
-	    android:background="#ffffff" >
+	    android:background="#000000" >
 		  <fragment
 		    android:id="@+id/map2"
 		    android:layout_width="150dp"
