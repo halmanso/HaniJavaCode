@@ -1,0 +1,31 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <RelativeLayout
+        android:id="@+id/rel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <fragment
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="com.google.android.gms.maps.SupportMapFragment" />
+        <Button
+          android:id="@+id/btn"
+          android:layout_centerHorizontal="true"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:layout_alignParentTop="true"
+          android:onClick="btn"
+          android:background="@drawable/pencil" />
+        <Button
+          android:id="@+id/btn2"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:layout_alignParentTop="true"
+          android:layout_alignParentLeft="true"
+          android:onClick="btn2"
+          android:visibility="invisible" />
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,99 @@
+package com.example.calllibrary;
+
+
+import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_HYBRID;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.example.librarytest.MyMarker;
+import com.example.librarytest.MyPolynomial;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polygon;
+
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RelativeLayout;
+
+public class MainActivity extends FragmentActivity {
+	private GoogleMap map = null;
+	private RelativeLayout rel = null;	
+	private Boolean j = true;
+	private MyPolynomial fr;
+	//private List<Polygon> poly = new ArrayList<Polygon>();
+	private int cnt = 0;
+	private Boolean swch = false;
+	private MyMarker marker;
+	private Marker mkr1;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		if (map == null) {
+			map = ((SupportMapFragment) getSupportFragmentManager()
+					.findFragmentById(R.id.map)).getMap();
+			LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+			Criteria criteria = new Criteria();
+			String provider = locationManager.getBestProvider(criteria, true);
+			Location myLocation = locationManager
+					.getLastKnownLocation(provider);
+			LatLng latLng = new LatLng(40.4282, -86.91775);
+			if (myLocation != null)
+				latLng = new LatLng(myLocation.getLatitude(),
+						myLocation.getLongitude());
+			map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+			mkr1 = map.addMarker(new MarkerOptions().position(latLng));
+		}
+		map.setMapType(MAP_TYPE_HYBRID);
+		map.setMyLocationEnabled(true);
+		UiSettings mU;
+		mU = map.getUiSettings();
+		mU.setZoomControlsEnabled(false);
+	}
+	public void btn(View v) {
+		if (j == true){
+			rel = (RelativeLayout) findViewById(R.id.rel);
+			marker = new MyMarker(map,rel,this);
+			
+			//marker.showPop(mkr1);
+			/*fr = new MyPolynomial(map,rel,this);
+			fr.shiftUp(0);
+			fr.startDrawing();*/
+			
+			j = !j;
+		} 
+		
+		
+		else{
+			/*if(fr.getPolygon().getPoints().size() > 3 && swch == false) poly.add(fr.getPolygon());
+			fr.stopDrawing();*/
+			j = !j;
+			//swch = false;
+			marker.showPop(mkr1);
+			//marker.clearMyMarker();
+		}
+		//((Button)v).setText(""+poly.size());		
+	}
+	public void btn2(View v) {
+		/*if (poly.size() != 0){
+			if(fr.getPolygon().getPoints().size() <= 1 && swch == true) poly.remove(cnt-1);
+			swch = true;
+			if(cnt >= poly.size()) cnt = 0;
+			fr.stopDrawing();
+			fr.redraw(poly.get(cnt));
+			cnt++;
+		}*/
+	}
+}

@@ -2,7 +2,7 @@
 <!-- Copyright 2012 Google Inc. All Rights Reserved. -->
 <resources>
   <declare-styleable name="MapAttrs">
-    <attr name="mapType" format="enum">
+    <!-- <attr name="mapType" format="enum">
       <enum name="none" value="0"/>
       <enum name="normal" value="1"/>
       <enum name="satellite" value="2"/>
@@ -21,6 +21,6 @@
     <attr name="uiZoomControls" format="boolean"/>
     <attr name="uiZoomGestures" format="boolean"/>
     <attr name="useViewLifecycle" format="boolean"/>
-    <attr name="zOrderOnTop" format="boolean"/>
+    <attr name="zOrderOnTop" format="boolean"/> -->
   </declare-styleable>
 </resources>
