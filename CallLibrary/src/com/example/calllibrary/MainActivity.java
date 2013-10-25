@@ -28,7 +28,7 @@ public class MainActivity extends FragmentActivity {
 	private GoogleMap map = null;
 	private RelativeLayout rel = null;	
 	private Boolean j = true;
-	private HyperPolygon fr;
+	private AtkPolygon fr;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,10 +53,16 @@ public class MainActivity extends FragmentActivity {
 		mU = map.getUiSettings();
 		mU.setZoomControlsEnabled(false);
 		rel = (RelativeLayout) findViewById(R.id.rel);
+		fr = new AtkPolygon(map,rel,this);
+	}
+	
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
 	}
 	public void btn(View v) {
 		if (j == true){
-			fr = new HyperPolygon(map,rel,this);
 			fr.shiftUp(0);
 			fr.startDrawing();
 			

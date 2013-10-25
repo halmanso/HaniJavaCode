@@ -2,3 +2,6 @@
 1382372778248	Rename compilation unit 'MyPolygon.java'
 1382372932111	Rename compilation unit 'MyMarker.java'
 1382372969596	Rename type 'MyPolyline'
+1382549116905	Rename type 'HyperMarker'
+1382549125515	Rename type 'HyperPolygon'
+1382549133427	Rename type 'HyperPolyline'

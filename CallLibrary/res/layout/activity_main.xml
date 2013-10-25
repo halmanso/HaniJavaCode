@@ -26,6 +26,6 @@
           android:layout_alignParentTop="true"
           android:layout_alignParentLeft="true"
           android:onClick="btn2"
-          android:visibility="invisible" />
+          android:visibility="visible" />
     </RelativeLayout>
 </RelativeLayout>
