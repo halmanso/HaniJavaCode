@@ -37,17 +37,12 @@ public class AtkMarker {
 	}
 	
 	public AtkMarker(GoogleMap map, RelativeLayout rel, Activity active) {
-		// Initialization
 		this.map = map;
 		this.rel = rel;
 		this.active = active;
-		this.listener = (AtkMarkerListener) active;
-		this.dens = Resources.getSystem().getDisplayMetrics().density;
-		
-		// Create the magnifier window
+		listener = (AtkMarkerListener) active;
+		dens = Resources.getSystem().getDisplayMetrics().density;
 		createRel();
-		
-		// Create the trackpad
 		h = rel.getHeight() / dens;
 		w = rel.getWidth() / dens;
 		trackpad = addbutton(trackpad, R.drawable.move_red, Math.round(75 * dens),
@@ -56,7 +51,6 @@ public class AtkMarker {
 		setTrack();
 		
 	}
-	
 	private void setTrack(){
 		trackpad.setOnTouchListener(new View.OnTouchListener() {
 			Point pmkr = new Point();
