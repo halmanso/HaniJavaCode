@@ -198,11 +198,13 @@ containing a value of this type.
         public static int ic_plusone_tall_off_client=0x7f020028;
         public static int minus=0x7f020029;
         public static int move_red=0x7f02002a;
-        public static int package_purge=0x7f02002b;
-        public static int pencil=0x7f02002c;
-        public static int selected_vertex=0x7f02002d;
-        public static int test=0x7f02002e;
-        public static int unselected_vertex=0x7f02002f;
+        public static int next_vertex=0x7f02002b;
+        public static int package_purge=0x7f02002c;
+        public static int pencil=0x7f02002d;
+        public static int prev_vertex=0x7f02002e;
+        public static int selected_vertex=0x7f02002f;
+        public static int test=0x7f020030;
+        public static int unselected_vertex=0x7f020031;
     }
     public static final class id {
         public static int hybrid=0x7f040004;

@@ -35,14 +35,17 @@ public class AtkMapWidget {
 	private int shift = 0;
 	private float h, w;
 	private AtkMapWidgetListener listener;
+	public int index,nextIndex,prevIndex,oldNextIndex,oldPreviousIndex;
 
 
 	public interface AtkMapWidgetListener {
 		public void TrackPadDragListener();
-		public Marker AtkMarkerUpload();
-		public List<Marker> AtkPassMarker();
-		public void UpdateSelectedMarker(int index);
+		public Marker AtkPassMarker();
+		public List<Marker> AtkPassMarkerList();
+		public void UpdateSelectedMarker(boolean isButtonSelected,int index,int nextIndex,
+				int prevIndex,int oldNextIndex,int oldPreviousIndex);
 	}
+	
 	
 	public AtkMapWidget(GoogleMap map, RelativeLayout rel, Activity active) {
 		// Initialization
@@ -85,7 +88,7 @@ public class AtkMapWidget {
 			public boolean onTouch(View v, MotionEvent event) {
 				switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN:
-					mkr1 = listener.AtkMarkerUpload();
+					mkr1 = listener.AtkPassMarker();
 					if(mkr1==null)break;
 					mvScreen();
 					pmkr.set(
@@ -120,27 +123,24 @@ public class AtkMapWidget {
 	}
 	private void setNextMarkerSelection(){
 		pls.setOnTouchListener(new View.OnTouchListener() {
-			int index;
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN:
-					if(mkr.size() == 0) mkr = listener.AtkPassMarker();
-					mkr1 = listener.AtkMarkerUpload();
+					if(mkr.size() == 0) mkr = listener.AtkPassMarkerList();
+					mkr1 = listener.AtkPassMarker();
+					if(mkr == null)break;
 					if(mkr.size() == 0)break;
-					for(int i = 0;i<mkr.size();i++){
-						if(mkr1.equals(mkr.get(i))){
-							index = i;
-							break;
-						}
-					}
-					if(index == mkr.size()-1) index = 0;
-					else index++;
-					
+					index = getIndex();
+					oldNextIndex = getNextIndex(index);
+					oldPreviousIndex = getPreviousIndex(index);
+					index = getNextIndex(index);
+					prevIndex = getPreviousIndex(index);
+					nextIndex = getNextIndex(index);
 					break;
 				case MotionEvent.ACTION_UP:
 					if(mkr.size()==0)break;
-					listener.UpdateSelectedMarker(index);
+					listener.UpdateSelectedMarker(true,index,nextIndex,prevIndex,oldNextIndex,oldPreviousIndex);
 					break;
 				}
 				return false;
@@ -149,31 +149,42 @@ public class AtkMapWidget {
 	}
 	private void setPreviousMarkerSelection(){
 		mns.setOnTouchListener(new View.OnTouchListener() {
-			int index;
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN:
-					if(mkr.size() == 0)mkr = listener.AtkPassMarker();
-					mkr1 = listener.AtkMarkerUpload();
+					if(mkr.size() == 0)mkr = listener.AtkPassMarkerList();
+					mkr1 = listener.AtkPassMarker();
+					if(mkr == null)break;
 					if(mkr.size() == 0)break;
-					for(int i = 0;i<mkr.size();i++){
-						if(mkr1.equals(mkr.get(i))) {
-							index = i;
-							break;
-						}
-					}
-					if(index == 0) index = mkr.size()-1;
-					else index--;
+					index = getIndex();
+					oldNextIndex = getNextIndex(index);
+					oldPreviousIndex = getPreviousIndex(index);
+					index = getPreviousIndex(index);
+					nextIndex = getNextIndex(index);
+					prevIndex = getPreviousIndex(index);
 					break;
 				case MotionEvent.ACTION_UP:
 					if(mkr.size() == 0)break;
-					listener.UpdateSelectedMarker(index);
+					listener.UpdateSelectedMarker(true,index,nextIndex,prevIndex,oldNextIndex,oldPreviousIndex);
 					break;
 				}
 				return false;
 			}
 		});
+	}
+	public void setSelectionIcons(){
+		int index = 0;
+		if(mkr.size() == 0)mkr = listener.AtkPassMarkerList();
+		if(mkr.size() > 0){
+			mkr1 = listener.AtkPassMarker();
+			if(nextIndex >= mkr.size() && mkr.size() > 0)nextIndex = mkr.size()-1;
+			if(prevIndex >= mkr.size() && mkr.size() > 0)prevIndex = mkr.size()-1;
+			index = getIndex();
+			listener.UpdateSelectedMarker(false,index,getNextIndex(index),getPreviousIndex(index),nextIndex,prevIndex);
+			nextIndex = getNextIndex(index);
+			prevIndex = getPreviousIndex(index);
+		}
 	}
 	public void showAtkButtons(){
 		trackpad.setVisibility(View.VISIBLE);
@@ -286,5 +297,29 @@ public class AtkMapWidget {
 			mapf.getMap().moveCamera(
 					CameraUpdateFactory.newCameraPosition(map.getCameraPosition()));
 		}
+	}
+	private int getNextIndex(int index){
+		if(index == mkr.size()-1) index = 0;
+		else index++;
+		return index;
+	}
+	private int getPreviousIndex(int index){
+		if(index == 0) index = mkr.size()-1;
+		else index--;
+		return index;
+	}
+	private int getIndex(){
+		int index = 0;
+		if(mkr != null){
+			if(mkr.size() != 0){
+				for(int i = 0;i<mkr.size();i++){
+					if(mkr1.equals(mkr.get(i))){
+						index = i;
+						break;
+					}
+				}
+			}
+		}
+		return index;
 	}
 }

@@ -85,11 +85,13 @@ public final class R {
 		public static final int ic_plusone_tall_off_client = 0x7f020028;
 		public static final int minus = 0x7f020029;
 		public static final int move_red = 0x7f02002a;
-		public static final int package_purge = 0x7f02002b;
-		public static final int pencil = 0x7f02002c;
-		public static final int selected_vertex = 0x7f02002d;
-		public static final int test = 0x7f02002e;
-		public static final int unselected_vertex = 0x7f02002f;
+		public static final int next_vertex = 0x7f02002b;
+		public static final int package_purge = 0x7f02002c;
+		public static final int pencil = 0x7f02002d;
+		public static final int prev_vertex = 0x7f02002e;
+		public static final int selected_vertex = 0x7f02002f;
+		public static final int test = 0x7f020030;
+		public static final int unselected_vertex = 0x7f020031;
 	}
 	public static final class id {
 		public static final int hybrid = 0x7f050004;
