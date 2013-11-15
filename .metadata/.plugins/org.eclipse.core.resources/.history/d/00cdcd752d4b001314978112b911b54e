@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout 
+	android:layout_height="match_parent" 
+	android:layout_width="match_parent" 
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<RelativeLayout 
+		android:id="@+id/rel" 
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"> 
+		<fragment 
+		    android:layout_height="match_parent" 
+		    android:layout_width="match_parent" 
+		    class="com.example.pdrawing.MySupportMapFragment" 
+		    android:id="@+id/map"/>
+	</RelativeLayout>
+	<LinearLayout 
+	    android:layout_height="wrap_content" 
+	    android:layout_width="wrap_content" 
+	    android:orientation="vertical" 
+	    android:background="#D000" 
+	    android:padding="6dp" 
+	    android:layout_alignTop="@id/rel" 
+	    android:layout_alignParentLeft="true">
+	    <CheckBox 
+	        android:layout_height="wrap_content" 
+	        android:layout_width="wrap_content" 
+	        android:id="@+id/disable" 
+	        android:onClick="mapdragdisable"/>
+	</LinearLayout>
+</RelativeLayout>

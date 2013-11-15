@@ -38,7 +38,6 @@
 <fullyQualifiedTypeName name="com.google.android.gms.maps.MapFragment"/>
 <fullyQualifiedTypeName name="com.google.android.gms.maps.GoogleMapOptions"/>
 <fullyQualifiedTypeName name="android.widget.ImageView"/>
-<fullyQualifiedTypeName name="com.google.android.gms.maps.model.Polygon"/>
 <fullyQualifiedTypeName name="com.google.android.gms.maps.GoogleMap.OnMapClickListener"/>
 <fullyQualifiedTypeName name="android.graphics.drawable.Drawable"/>
 <fullyQualifiedTypeName name="com.example.librarytest.MyFragment"/>
@@ -60,4 +59,5 @@
 <fullyQualifiedTypeName name="android.util.Log"/>
 <fullyQualifiedTypeName name="android.view.ViewTreeObserver"/>
 <fullyQualifiedTypeName name="android.view.ViewTreeObserver.OnGlobalLayoutListener"/>
+<fullyQualifiedTypeName name="com.google.android.gms.maps.model.Polygon"/>
 </qualifiedTypeNameHistroy>

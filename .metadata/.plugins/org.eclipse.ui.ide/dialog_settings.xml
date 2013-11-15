@@ -7,6 +7,7 @@
 		<item value="true" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
 		<item value="false" key="WizardProjectsImportPage.STORE_NESTED_PROJECTS"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="C:\Users\HM\workspace\test\pDrawing"/>
 			<item value="C:\Users\HM\workspace"/>
 			<item value="C:\Users\HM\workspace\android-maps-extensions"/>
 			<item value="C:\Users\HM\workspace\Tillage"/>

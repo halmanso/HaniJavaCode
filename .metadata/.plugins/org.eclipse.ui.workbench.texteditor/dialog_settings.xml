@@ -13,16 +13,16 @@
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="getMarkerList" key="selection"/>
+		<item value="delta" key="selection"/>
 		<list key="findhistory">
-			<item value="getMarkerList"/>
-			<item value="popmarker"/>
-			<item value="popmaker"/>
-			<item value=".R "/>
-			<item value=".R"/>
-			<item value=".R;"/>
-			<item value="popmark"/>
-			<item value="AddFieldUndo"/>
+			<item value="delta"/>
+			<item value="widget"/>
+			<item value="m ="/>
+			<item value="mMap"/>
+			<item value="addmarker"/>
+			<item value="enablepop"/>
+			<item value="enable"/>
+			<item value="enbael"/>
 		</list>
 		<list key="replacehistory">
 			<item value="widget"/>
