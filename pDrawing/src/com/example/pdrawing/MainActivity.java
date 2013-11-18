@@ -34,7 +34,7 @@ import android.widget.TextView;
 
 public class MainActivity extends FragmentActivity implements 
 	AtkMapWidgetListener,OnMapClickListener {
-
+	
 	private GoogleMap mMap;
 	private TextView mTapTextView;
     private TextView mCameraTextView;
@@ -112,6 +112,9 @@ public class MainActivity extends FragmentActivity implements
 	if (mMapdragdisable.isChecked()){
 		if(widget == null) widget = new AtkMapWidget(mMap,rel,this);
 		widget.EnablePop(false);
+		widget.hideSelectionButton();
+		widget.maxTrackPad(200);
+		widget.shiftAtkButtonsUp(120);
 	}
 	else
 
@@ -204,7 +207,6 @@ public class MainActivity extends FragmentActivity implements
 		prevx = mMap.getProjection().toScreenLocation(arg0).x;
 		prevy = mMap.getProjection().toScreenLocation(arg0).x;
 		flag = 0;
-		
 	}
 }
 
